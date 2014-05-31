@@ -1,6 +1,6 @@
 (function() {
   $(function() {
-    var $body, $failure, $focus, $output, $post, $pre, $prompt, $success, $test, CHAR_H, CHAR_W, OCD, PADDING, addChar, chars, cols, failed, focusInput, height, maxChars, rows, run, running, start, width;
+    var $body, $failure, $focus, $output, $post, $pre, $prompt, $success, $test, CHAR_H, CHAR_W, OCD, PADDING, addChar, bbclrect, chars, cols, failed, focusInput, height, maxChars, rows, run, running, start, width;
 
     $pre = $('#pre');
     $post = $('#post');
@@ -11,6 +11,7 @@
     $focus = $('#focus');
     $body = $('body');
     $test = $('#test span');
+    bbclrect = $test.get(0).getBoundingClientRect();
     CHAR_W = bbclrect.width;
     CHAR_H = bbclrect.height;
     PADDING = 20;
