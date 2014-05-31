@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class='no-js' lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <title>Dots</title>
+    <meta content='green dots == bliss' name='description'>
+    <meta content='width=device-width, initial-scale=1' name='viewport'>
+    <link href='/favicon.ico' shortcut='shortcut icon'>
+    <link href='stylesheets/screen.css' rel='stylesheet'>
+  </head>
+  <body>
+    <div id='main' role='main'>
+      <div id='focus'></div>
+      <div id='container'>
+        <input autocapitalize='off' autocomplete='off' autocorrect='off' id='pre' spellcheck='false' type='text' value='$ rspec spec/'>
+        <div class='success' id='output'>
+          <div id='test'>
+            <span>.</span>
+          </div>
+        </div>
+        <div id='success'>
+          <pre>Finished in <span class="time">0.00154</span> seconds&#x000A;<span class="examples">3</span> examples, 0 failures&#x000A;</pre>
+        </div>
+        <div id='failure'>
+          <pre>Failures:&#x000A;&#x000A;  1) ZeroDivisionError: divided by 0&#x000A;     the_class.rb:28:in `/'&#x000A;     the_class.rb:28:in `divide!'&#x000A;&#x000A;Finished in <span class="time">0.00154</span> seconds&#x000A;<span class="examples">3</span> examples, 1 failure&#x000A;&#x000A;Failed examples:&#x000A;&#x000A;rspec ./spec/unit/the_class_spec.rb:51 # TheClass#divide! should divide by zero just fine.</pre>
+        </div>
+        <input autocapitalize='off' autocomplete='off' autocorrect='off' id='post' spellcheck='false' type='text' value='$ '>
+      </div>
+    </div>
+    <script src='javascripts/vendor/jquery.min.js'></script>
+    <script src='javascripts/application.js'></script>
+  </body>
+</html>
