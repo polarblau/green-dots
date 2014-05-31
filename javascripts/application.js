@@ -52,7 +52,8 @@
         delay = Math.random() * (Math.random() > 0.9 ? 1000 : 30);
         return setTimeout(addChar, delay);
       } else {
-        $result = failed ? (duration = ((new Date).getTime() - start) / 1000, $failure) : $success;
+        duration = ((new Date).getTime() - start) / 1000;
+        $result = failed ? $failure : $success;
         $result.show().find('span.examples').text(chars).end().find('span.time').text(duration);
         running = false;
         return focusInput($post.show());
