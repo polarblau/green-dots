@@ -1,8 +1,44 @@
 (function() {
   $(function() {
-    var $body, $failure, $focus, $output, $post, $pre, $prompt, $success, $test, CHAR_H, CHAR_W, OCD, PADDING, addChar, chars, cols, failed, focusInput, height, maxChars, rows, run, running, start, width;
+    var $body, $failure, $focus, $output, $post, $pre, $prompt, $success, $test, CHAR_H, CHAR_W, OCD, PADDING, addChar, bbclrect, chars, cols, failed, focusInput, height, maxChars, rows, run, running, start, width, fnDelay, fnBoost, prompt;
+
+    // fnDelay and fnBoost:
+    //
+    // JavaScript just can't go fast enough to mimic a good RSpec test
+    // suite (10's-100's of specs/sec), and it can't hope to even *touch* a
+    // minitest suite (100's-1000's of specs/sec). So fnDelay is the delay
+    // between putting down the next bit of dots, which even set to 0
+    // runs too slow for "good" RSpec or Minitest. So we add in
+    // fnBoost, which is just a multiplier for how many dots we put
+    // down at once, providing a visual acceleration (and probably
+    // screwing up the viewport, bleh).
+
+    var railsPrompt = 'bundle exec rake spec/';
+    var rspecPrompt = 'rake spec/';
+    var minitestPrompt = 'rake test';
+
+    var fnRailsBoost = function () { return 1 };
+    var fnRspecBoost = function () { return 4 };
+    var fnMinitestBoost = function () { return 40 };
+
+    // Rails-style rspec tends to be bog-slow on account of touching
+    // fixtures and the database so much
+    var fnRailsDelay = function() { return Math.random() > 0.9 ? 1000 : 30 };
+    var fnRspecDelay = function() { return Math.random() > 0.99 ? Math.floor(Math.random() * Math.random() * 1000) : 0 };
+    var fnMinitestDelay = function() { return 0 };
+
+    prompt = railsPrompt;
+    fnDelay = fnRailsDelay;
+    fnBoost = fnRailsBoost;
+
+    if (/rails/.test(location.search)) { prompt=railsPrompt; fnDelay = fnRailsDelay; fnBoost = fnRailsBoost; };
+    if (/rspec/.test(location.search)) { prompt=rspecPrompt; fnDelay = fnRspecDelay; fnBoost = fnRspecBoost;};
+    if (/minitest/.test(location.search)) { prompt=minitestPrompt; fnDelay = fnMinitestDelay; fnBoost = fnMinitestBoost;};
 
     $pre = $('#pre');
+
+    $pre.val(prompt);
+
     $post = $('#post');
     $failure = $('#failure');
     $success = $('#success');
@@ -11,6 +47,7 @@
     $focus = $('#focus');
     $body = $('body');
     $test = $('#test span');
+    bbclrect = $test.get(0).getBoundingClientRect();
     CHAR_W = bbclrect.width;
     CHAR_H = bbclrect.height;
     PADDING = 20;
@@ -42,13 +79,13 @@
       } else {
         batch = Math.floor() > 0.6 ? Math.floor(Math.random() * 10) : 1;
         while (batch-- !== 0) {
-          progress += '.';
+          progress += (new Array(1+fnBoost())).join('.');
         }
         chars += progress.length;
       }
       $output.append(progress);
       if (chars < maxChars) {
-        delay = Math.random() * (Math.random() > 0.9 ? 1000 : 30);
+        delay = fnDelay();
         return setTimeout(addChar, delay);
       } else {
         $result = failed ? (duration = ((new Date).getTime() - start) / 1000, $failure) : $success;
