@@ -12,10 +12,6 @@
     // fnBoost, which is just a multiplier for how many dots we put
     // down at once, providing a visual acceleration (and probably
     // screwing up the viewport, bleh).
-    //
-    // fnStartupDelay is how many milliseconds the test suite should
-    // take warming up. Figure 7-12s for Rails, 0.5-1s for RSpec, and
-    // 10-100ms for Minitest.
 
     var railsPrompt = 'bundle exec rake spec/';
     var rspecPrompt = 'rake spec/';
