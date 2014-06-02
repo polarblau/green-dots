@@ -1,6 +1,15 @@
 (function() {
   $(function() {
-    var $body, $failure, $focus, $output, $post, $pre, $prompt, $success, $test, CHAR_H, CHAR_W, OCD, PADDING, addChar, chars, cols, failed, focusInput, height, maxChars, rows, run, running, start, width;
+    var $body, $failure, $focus, $output, $post, $pre, $prompt, $success, $test, CHAR_H, CHAR_W, OCD, PADDING, addChar, chars, cols, failed, focusInput, height, maxChars, rows, run, running, start, width, fnDelay;
+
+    var rails_delay = function() { return Math.random() > 0.9 ? 1000 : 30 };
+    var rspec_delay = function() { return Math.random() > 0.9 ? Math.floor(100 + (Math.random() * 300)) : Math.floor(Math.random() * 10) };
+    var minitest_delay = function() { return Math.floor(Math.random() * 10) };
+
+    fnDelay = rails_delay;
+    if (/rails/.test(location.search)) { fnDelay = rails_delay; };
+    if (/rspec/.test(location.search)) { fnDelay = rspec_delay; };
+    if (/minitest/.test(location.search)) { fnDelay = minitest_delay; };
 
     $pre = $('#pre');
     $post = $('#post');
@@ -48,7 +57,7 @@
       }
       $output.append(progress);
       if (chars < maxChars) {
-        delay = Math.random() * (Math.random() > 0.9 ? 1000 : 30);
+        delay = fnDelay();
         return setTimeout(addChar, delay);
       } else {
         $result = failed ? (duration = ((new Date).getTime() - start) / 1000, $failure) : $success;
